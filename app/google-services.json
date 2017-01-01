@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "17043188577",
+    "firebase_url": "https://yardsale-5a225.firebaseio.com",
+    "project_id": "yardsale-5a225",
+    "storage_bucket": "yardsale-5a225.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17043188577:android:4c7f2a3ec09b7da3",
+        "android_client_info": {
+          "package_name": "com.sreekar.yardsale"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "17043188577-18estsehjlap64at078a6tcqs8qd67jf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sreekar.yardsale",
+            "certificate_hash": "49F843F7A545A70190C6A8B39B779E1AC31C3DBD"
+          }
+        },
+        {
+          "client_id": "17043188577-tgpahovtcrlv8jfv8tq6ot054q19lfnf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwgFkCk6PUaCNCxMSHRha6ZbLcP-6Jku0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "17043188577-tgpahovtcrlv8jfv8tq6ot054q19lfnf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
