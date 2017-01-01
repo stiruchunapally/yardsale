@@ -4,14 +4,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.sreekar.yardsale.fragment.MyItemsFragment;
-import com.sreekar.yardsale.fragment.MyTopItemsFragment;
+import com.sreekar.yardsale.fragment.FavoriteItemsFragment;
 import com.sreekar.yardsale.fragment.RecentItemsFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
@@ -25,14 +24,14 @@ public class MainActivity extends AppCompatActivity {
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             private final Fragment[] mFragments = new Fragment[] {
                     new RecentItemsFragment(),
+                    new FavoriteItemsFragment(),
                     new MyItemsFragment(),
-                    new MyTopItemsFragment(),
             };
 
             private final String[] mFragmentNames = new String[] {
                     getString(R.string.heading_recent),
-                    getString(R.string.heading_my_items),
-                    getString(R.string.heading_my_top_items)
+                    getString(R.string.heading_favorites),
+                    getString(R.string.heading_my_items)
             };
 
             @Override

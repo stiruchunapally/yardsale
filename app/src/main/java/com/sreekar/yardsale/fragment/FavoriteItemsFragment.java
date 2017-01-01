@@ -1,8 +1,8 @@
 package com.sreekar.yardsale.fragment;
 
-public class RecentItemsFragment extends ItemsFragment {
+public class FavoriteItemsFragment extends ItemsFragment {
     @Override
     protected String getText() {
-        return "Recent Items";
+        return "Favorites";
     }
 }
