@@ -1,6 +1,10 @@
 <resources>
-    <string name="app_name">Yard Sale</string>
+    <string name="app_name">Sreekar\'s NLC Yard Sale</string>
     <string name="heading_recent">Recent</string>
     <string name="heading_favorites">Favorites</string>
     <string name="heading_my_items">My Items</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="hint_email">email</string>
+    <string name="hint_password">password</string>
 </resources>
