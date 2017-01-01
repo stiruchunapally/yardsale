@@ -1,6 +1,7 @@
 package com.sreekar.yardsale;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.sreekar.yardsale.fragment.MyItemsFragment;
@@ -19,10 +21,27 @@ public class MainActivity extends BaseActivity {
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
 
+    private FloatingActionButton bdonate;
+
+
+    public void donateButton(){
+        bdonate = (FloatingActionButton) findViewById(R.id.fab_new_post);
+
+        bdonate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v){
+                Intent donateIntent = new Intent(MainActivity.this, PostDonationActivity.class);
+                startActivity(donateIntent);
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        donateButton();
 
         // Create the adapter that will return a fragment for each section
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
