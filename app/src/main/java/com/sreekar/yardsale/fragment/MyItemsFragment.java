@@ -1,8 +1,13 @@
 package com.sreekar.yardsale.fragment;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+
 public class MyItemsFragment extends ItemsFragment {
     @Override
-    protected String getText() {
-        return "My Items";
+    public Query getQuery(DatabaseReference databaseReference) {
+        Query recentPostsQuery = databaseReference.child("items")
+                .limitToFirst(100);
+        return recentPostsQuery;
     }
 }

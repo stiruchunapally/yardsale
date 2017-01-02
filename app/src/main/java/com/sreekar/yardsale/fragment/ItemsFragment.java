@@ -2,22 +2,35 @@ package com.sreekar.yardsale.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.sreekar.yardsale.R;
+import com.sreekar.yardsale.models.Item;
+import com.sreekar.yardsale.viewholder.ItemViewHolder;
 
 public abstract class ItemsFragment extends Fragment {
+    private RecyclerView mRecycler;
+    private DatabaseReference mDatabase;
+    private LinearLayoutManager mManager;
+    private FirebaseRecyclerAdapter<Item, ItemViewHolder> mAdapter;
+
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_items, container, false);
-
-        TextView textView = (TextView) rootView.findViewById(R.id.itemText);
-        textView.setText(getText());
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        
+        mRecycler = (RecyclerView) rootView.findViewById(R.id.messages_list);
+        mRecycler.setHasFixedSize(true);
 
         return rootView;
     }
@@ -25,7 +38,22 @@ public abstract class ItemsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        mManager = new LinearLayoutManager(getActivity());
+        mManager.setReverseLayout(true);
+        mManager.setStackFromEnd(true);
+        mRecycler.setLayoutManager(mManager);
+
+        Query itemsQuery = getQuery(mDatabase);
+        mAdapter = new FirebaseRecyclerAdapter<Item, ItemViewHolder>(Item.class, R.layout.item_item,
+                ItemViewHolder.class, itemsQuery) {
+            @Override
+            protected void populateViewHolder(final ItemViewHolder viewHolder, final Item model, final int position) {
+                viewHolder.bindToItem(model);
+            }
+        };
+        mRecycler.setAdapter(mAdapter);
     }
 
-    protected abstract String getText();
+    public abstract Query getQuery(DatabaseReference databaseReference);
 }
