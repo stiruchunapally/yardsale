@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity {
         bdonate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                Intent donateIntent = new Intent(MainActivity.this, PostDonationActivity.class);
+                Intent donateIntent = new Intent(MainActivity.this, DonateActivity.class);
                 startActivity(donateIntent);
             }
         });
