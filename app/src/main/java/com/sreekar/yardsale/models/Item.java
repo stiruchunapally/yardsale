@@ -1,19 +1,19 @@
 package com.sreekar.yardsale.models;
 
 public class Item {
-    private String sellerUserId;
+    private String sellerName;
     private String title;
     private String description;
     private Float price;
     private Float condition;
     private String image;
 
-    public String getSellerUserId() {
-        return sellerUserId;
+    public String getSellerName() {
+        return sellerName;
     }
 
-    public void setSellerUserId(String sellerUserId) {
-        this.sellerUserId = sellerUserId;
+    public void setSellerName(String sellerName) {
+        this.sellerName = sellerName;
     }
 
     public String getTitle() {

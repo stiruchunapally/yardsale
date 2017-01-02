@@ -28,6 +28,10 @@
         <activity
             android:name=".DonateActivity"
             android:label="@string/donate_name" />
+
+        <activity
+            android:name=".ItemDetailActivity"
+            android:label="@string/donate_name" />
     </application>
 
 </manifest>

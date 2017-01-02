@@ -3,8 +3,8 @@ package com.sreekar.yardsale;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.provider.MediaStore;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
@@ -82,7 +82,7 @@ public class DonateActivity extends BaseActivity implements View.OnClickListener
 
     private void submit() {
         BitmapDrawable bitmapDrawable = ((BitmapDrawable) itemImage.getDrawable());
-        Bitmap bitmap = bitmapDrawable .getBitmap();
+        Bitmap bitmap = bitmapDrawable.getBitmap();
         String userId = getUid();
 
         Item item = new Item();
@@ -90,7 +90,7 @@ public class DonateActivity extends BaseActivity implements View.OnClickListener
         item.setDescription(description.getText().toString());
         item.setImage(encodeBitmap(bitmap));
         item.setPrice(Float.valueOf(suggestedPrice.getText().toString()));
-        item.setSellerUserId(userId);
+        item.setSellerName(getUserName());
         item.setTitle(title.getText().toString());
 
         String key = mDatabase.child("items").push().getKey();

@@ -31,7 +31,7 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         itemImage.setImageBitmap(decodeImage(item.getImage()));
     }
 
-    public  static Bitmap decodeImage(String image) {
+    public static Bitmap decodeImage(String image) {
         byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedByteArray,0, decodedByteArray.length);
     }

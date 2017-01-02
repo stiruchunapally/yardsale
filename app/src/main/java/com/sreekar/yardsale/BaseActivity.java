@@ -28,4 +28,13 @@ public class BaseActivity extends AppCompatActivity {
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
+
+    public String getUserName() {
+        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        if (email.contains("@")) {
+            return email.split("@")[0];
+        } else {
+            return email;
+        }
+    }
 }

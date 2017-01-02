@@ -1,5 +1,6 @@
 package com.sreekar.yardsale.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.sreekar.yardsale.ItemDetailActivity;
 import com.sreekar.yardsale.R;
 import com.sreekar.yardsale.models.Item;
 import com.sreekar.yardsale.viewholder.ItemViewHolder;
@@ -49,6 +51,20 @@ public abstract class ItemsFragment extends Fragment {
                 ItemViewHolder.class, itemsQuery) {
             @Override
             protected void populateViewHolder(final ItemViewHolder viewHolder, final Item model, final int position) {
+                final DatabaseReference postRef = getRef(position);
+
+                // Set click listener for the whole post view
+                final String postKey = postRef.getKey();
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Launch PostDetailActivity
+                        Intent intent = new Intent(getActivity(), ItemDetailActivity.class);
+                        intent.putExtra(ItemDetailActivity.EXTRA_POST_KEY, postKey);
+                        startActivity(intent);
+                    }
+                });
+                
                 viewHolder.bindToItem(model);
             }
         };
