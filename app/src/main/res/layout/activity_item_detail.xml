@@ -62,6 +62,9 @@
         android:layout_height="wrap_content"
         app:srcCompat="?android:attr/alertDialogIcon"
         android:layout_below="@+id/table_seller_price"
+        android:scaleY="3"
+        android:scaleX="3"
+        android:paddingTop="25dp"
         android:id="@+id/item_image"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
@@ -70,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:paddingTop="20dp"
+        android:paddingTop="105dp"
         android:text="Description"
         android:layout_below="@+id/item_image"
         android:layout_centerHorizontal="true"
