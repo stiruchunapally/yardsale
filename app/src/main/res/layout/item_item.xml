@@ -63,14 +63,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:textSize="15dp"
+            android:textColor="#0000d5"
+            android:textStyle="bold"
             android:gravity="center_vertical"
             tools:text="Title" />
         <TextView
             android:id="@+id/tvprice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#ff51ff"
             android:gravity="center"
             tools:text="7"
+            android:textSize="12dp"
+            android:paddingLeft="10dp"
             android:layout_alignParentStart="true" />
         </LinearLayout>
     </LinearLayout>

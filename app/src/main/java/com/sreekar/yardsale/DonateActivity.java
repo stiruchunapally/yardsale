@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -81,17 +83,24 @@ public class DonateActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void submit() {
-        BitmapDrawable bitmapDrawable = ((BitmapDrawable) itemImage.getDrawable());
-        Bitmap bitmap = bitmapDrawable.getBitmap();
         String userId = getUid();
+
+        if (!validateForm()) {
+            return;
+        }
 
         Item item = new Item();
         item.setCondition(ratingCondition.getRating());
         item.setDescription(description.getText().toString());
-        item.setImage(encodeBitmap(bitmap));
         item.setPrice(Float.valueOf(suggestedPrice.getText().toString()));
         item.setSellerName(getUserName());
         item.setTitle(title.getText().toString());
+
+        BitmapDrawable bitmapDrawable = ((BitmapDrawable) itemImage.getDrawable());
+        if (bitmapDrawable != null) {
+            Bitmap bitmap = bitmapDrawable.getBitmap();
+            item.setImage(encodeBitmap(bitmap));
+        }
 
         String key = mDatabase.child("items").push().getKey();
         Map<String, Object> childUpdates = new HashMap<>();
@@ -103,6 +112,42 @@ public class DonateActivity extends BaseActivity implements View.OnClickListener
         // Go to MainActivity
         startActivity(new Intent(DonateActivity.this, MainActivity.class));
         finish();
+    }
+
+    private boolean validateForm() {
+        boolean result = true;
+        if (TextUtils.isEmpty(suggestedPrice.getText().toString())) {
+            suggestedPrice.setError("Required");
+            result = false;
+        } else {
+            suggestedPrice.setError(null);
+        }
+
+        if (TextUtils.isEmpty(description.getText().toString())) {
+            description.setError("Required");
+            result = false;
+        } else {
+            description.setError(null);
+        }
+
+        if (TextUtils.isEmpty(title.getText().toString())) {
+            title.setError("Required");
+            result = false;
+        } else {
+            title.setError(null);
+        }
+
+        if (itemImage.getDrawable() == null) {
+            Toast.makeText(DonateActivity.this, "Image required", Toast.LENGTH_SHORT).show();
+            result = false;
+        }
+
+        if (ratingCondition.getRating() == 0) {
+            Toast.makeText(DonateActivity.this, "Rating required", Toast.LENGTH_SHORT).show();
+            result = false;
+        }
+
+        return result;
     }
 
     private String encodeBitmap(Bitmap bitmap) {

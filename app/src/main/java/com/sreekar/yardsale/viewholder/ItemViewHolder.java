@@ -27,11 +27,15 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
 
     public void bindToItem(Item item) {
         titleView.setText(item.getTitle());
-        priceView.setText(item.getPrice().toString());
+        priceView.setText("$"+item.getPrice().toString());
         itemImage.setImageBitmap(decodeImage(item.getImage()));
     }
 
     public static Bitmap decodeImage(String image) {
+        if (image == null || image.equals("")) {
+            return null;
+        }
+
         byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedByteArray,0, decodedByteArray.length);
     }

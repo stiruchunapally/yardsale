@@ -106,7 +106,7 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
 
                 title.setText(item.getTitle());
                 seller.setText(item.getSellerName());
-                price.setText(item.getPrice().toString());
+                price.setText("$"+item.getPrice().toString());
                 description.setText(item.getDescription());
                 rating.setRating(item.getCondition());
                 image.setImageBitmap(ItemViewHolder.decodeImage(item.getImage()));
