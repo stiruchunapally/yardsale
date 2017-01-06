@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sreekar.yardsale.models.Item;
@@ -50,7 +51,7 @@ public class DonateActivity extends BaseActivity implements View.OnClickListener
         itemImage = (ImageView) findViewById(R.id.item_image);
         title = (EditText) findViewById(R.id.text_item_title);
         ratingCondition = (RatingBar) findViewById(R.id.rating_condition);
-        suggestedPrice = (EditText) findViewById(R.id.text_price);
+        suggestedPrice = (CurrencyEditText) findViewById(R.id.text_price);
         description = (EditText) findViewById(R.id.text_description);
 
         // Click listeners
@@ -92,7 +93,11 @@ public class DonateActivity extends BaseActivity implements View.OnClickListener
         Item item = new Item();
         item.setCondition(ratingCondition.getRating());
         item.setDescription(description.getText().toString());
-        item.setPrice(Float.valueOf(suggestedPrice.getText().toString()));
+        String strSuggestedPrice = suggestedPrice.getText().toString();
+        if (strSuggestedPrice.startsWith("$")) {
+            strSuggestedPrice = strSuggestedPrice.substring(1);
+        }
+        item.setPrice(Float.valueOf(strSuggestedPrice));
         item.setSellerName(getUserName());
         item.setTitle(title.getText().toString());
 

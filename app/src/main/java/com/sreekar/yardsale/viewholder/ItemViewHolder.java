@@ -27,7 +27,8 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
 
     public void bindToItem(Item item) {
         titleView.setText(item.getTitle());
-        priceView.setText("$"+item.getPrice().toString());
+        String strPrice = String.format("$%.2f", item.getPrice());
+        priceView.setText(strPrice);
         itemImage.setImageBitmap(decodeImage(item.getImage()));
     }
 
