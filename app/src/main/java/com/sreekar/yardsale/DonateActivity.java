@@ -24,6 +24,14 @@ import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+This activity is shown when a user clicks on the donate button in the main page.
+This page allows for the input of an items title, condition, description,
+suggested price and picture. When a user inputs all of the information and clicks the submit button,
+the information is shown on the main page and the user is directed to the main page.
+If all of the information is not submitted, an error message is shown.
+ */
+
 public class DonateActivity extends BaseActivity implements View.OnClickListener {
 
     private DatabaseReference mDatabase;
@@ -52,7 +60,7 @@ public class DonateActivity extends BaseActivity implements View.OnClickListener
         title = (EditText) findViewById(R.id.text_item_title);
         ratingCondition = (RatingBar) findViewById(R.id.rating_condition);
         suggestedPrice = (CurrencyEditText) findViewById(R.id.text_price);
-        description = (EditText) findViewById(R.id.text_description);
+        description = (EditText) findViewById(R.id.etAddress);
 
         // Click listeners
         btnSubmit.setOnClickListener(this);
@@ -113,6 +121,8 @@ public class DonateActivity extends BaseActivity implements View.OnClickListener
         childUpdates.put("/user-items/" + userId + "/" + key, item);
 
         mDatabase.updateChildren(childUpdates);
+
+        Toast.makeText(DonateActivity.this, "Submittion auccessfull", Toast.LENGTH_SHORT).show();
 
         // Go to MainActivity
         startActivity(new Intent(DonateActivity.this, MainActivity.class));

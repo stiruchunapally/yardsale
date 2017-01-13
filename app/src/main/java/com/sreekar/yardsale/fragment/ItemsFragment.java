@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -17,6 +18,10 @@ import com.sreekar.yardsale.ItemDetailActivity;
 import com.sreekar.yardsale.R;
 import com.sreekar.yardsale.models.Item;
 import com.sreekar.yardsale.viewholder.ItemViewHolder;
+
+/*
+This is the basic layout for all three fragments,
+ */
 
 public abstract class ItemsFragment extends Fragment {
     private RecyclerView mRecycler;
@@ -69,6 +74,11 @@ public abstract class ItemsFragment extends Fragment {
             }
         };
         mRecycler.setAdapter(mAdapter);
+    }
+
+    //Method that gets the User ID and stores it in a string
+    public String getUid() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     public abstract Query getQuery(DatabaseReference databaseReference);

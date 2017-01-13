@@ -11,6 +11,10 @@ import android.widget.TextView;
 import com.sreekar.yardsale.R;
 import com.sreekar.yardsale.models.Item;
 
+/*
+This class inputs the information into the item model.
+ */
+
 public class ItemViewHolder extends RecyclerView.ViewHolder {
 
     public TextView titleView;

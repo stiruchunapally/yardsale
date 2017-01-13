@@ -2,6 +2,10 @@ package com.sreekar.yardsale.models;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+/*
+This is the basic layout for the user object.
+ */
+
 @IgnoreExtraProperties
 public class User {
 

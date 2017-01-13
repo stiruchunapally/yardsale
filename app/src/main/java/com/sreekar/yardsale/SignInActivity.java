@@ -19,8 +19,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sreekar.yardsale.models.User;
 
+/*
+This page is the first page the user sees when they open the app for the first time.
+This page allows for registration and login of a user.
+After a user logs in they are sent to the Main Activity.
+ */
+
 public class SignInActivity extends BaseActivity implements View.OnClickListener {
 
+    // Initialize variables
     private static final String TAG = "SignInActivity";
 
     private DatabaseReference mDatabase;
@@ -60,6 +67,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    // Validates sign in form
     private void signIn() {
         Log.d(TAG, "signIn");
         if (!validateForm()) {
@@ -87,6 +95,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 });
     }
 
+    // Validates registration forms and registers users
     private void signUp() {
         Log.d(TAG, "signUp");
         if (!validateForm()) {
@@ -133,6 +142,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    // Form valdation. If the form is filled out wrong, an error message is shown.
     private boolean validateForm() {
         boolean result = true;
         if (TextUtils.isEmpty(mEmailField.getText().toString())) {
@@ -155,9 +165,11 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private void writeNewUser(String userId, String name, String email) {
         User user = new User(name, email);
 
+        // Sends user data to database
         mDatabase.child("users").child(userId).setValue(user);
     }
 
+    // Signs in or registers user based on which button is pressed
     @Override
     public void onClick(View v) {
         int i = v.getId();

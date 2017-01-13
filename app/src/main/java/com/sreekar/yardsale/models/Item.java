@@ -1,5 +1,9 @@
 package com.sreekar.yardsale.models;
 
+/*
+This is the basic layout for an item object.
+ */
+
 public class Item {
     private String sellerName;
     private String title;

@@ -1,6 +1,7 @@
 package com.sreekar.yardsale;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,12 @@ import com.sreekar.yardsale.viewholder.ItemViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/*
+This activity is shown after a user clicks on an item in the main page. It shows the name
+of the selected item, the seller, price, rating of the condition, an image of the item,
+a description, a button to buy the item, and a comments section where users can post comments.
+ */
 
 public class ItemDetailActivity extends BaseActivity implements View.OnClickListener {
 
@@ -60,10 +67,28 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
     private Button mCommentButton;
     private RecyclerView mCommentsRecycler;
 
+    private Button buy;
+
+
+    //Initialize donate button and set a listener on the button
+    public void buy(){
+        buy = (Button) findViewById(R.id.button_buy);
+
+        buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v){
+                Intent donateIntent = new Intent(ItemDetailActivity.this, BuyActivity.class);
+                startActivity(donateIntent);
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_detail);
+
+        buy();
 
         // Get post key from intent
         itemKey = getIntent().getStringExtra(EXTRA_POST_KEY);
@@ -91,6 +116,8 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
 
         mCommentButton.setOnClickListener(this);
         mCommentsRecycler.setLayoutManager(new LinearLayoutManager(this));
+
+        buy = (Button) findViewById(R.id.button_buy);
     }
 
     @Override
@@ -104,8 +131,10 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
                 // Get Post object and use the values to update the UI
                 Item item = dataSnapshot.getValue(Item.class);
 
+                //Setting text
                 title.setText(item.getTitle());
                 seller.setText(item.getSellerName());
+                //Formatting price with $ before the number and 2 places after the decimal
                 String strPrice = String.format("$%.2f", item.getPrice());
                 price.setText(strPrice);
                 description.setText(item.getDescription());
