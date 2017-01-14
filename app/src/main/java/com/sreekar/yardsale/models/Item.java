@@ -11,6 +11,7 @@ public class Item {
     private Float price;
     private Float condition;
     private String image;
+    private boolean purchased;
 
     public String getSellerName() {
         return sellerName;
@@ -58,5 +59,13 @@ public class Item {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public void setPurchased(boolean purchased) {
+        this.purchased = purchased;
+    }
+
+    public boolean isPurchased() {
+        return purchased;
     }
 }

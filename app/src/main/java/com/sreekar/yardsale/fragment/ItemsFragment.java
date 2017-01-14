@@ -59,13 +59,13 @@ public abstract class ItemsFragment extends Fragment {
                 final DatabaseReference postRef = getRef(position);
 
                 // Set click listener for the whole post view
-                final String postKey = postRef.getKey();
+                final String itemKey = postRef.getKey();
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Launch PostDetailActivity
                         Intent intent = new Intent(getActivity(), ItemDetailActivity.class);
-                        intent.putExtra(ItemDetailActivity.EXTRA_POST_KEY, postKey);
+                        intent.putExtra(ItemDetailActivity.EXTRA_ITEM_KEY, itemKey);
                         startActivity(intent);
                     }
                 });

@@ -3,6 +3,7 @@ package com.sreekar.yardsale;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,11 +17,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.sreekar.yardsale.models.Comment;
 import com.sreekar.yardsale.models.Item;
@@ -40,7 +43,7 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
 
     private static final String TAG = "ItemDetailActivity";
 
-    public static final String EXTRA_POST_KEY = "post_key";
+    public static final String EXTRA_ITEM_KEY = "item_key";
 
     private DatabaseReference mItemReference;
     private ValueEventListener mItemListener;
@@ -50,10 +53,7 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
 
     private Context mContext;
     private DatabaseReference mDatabaseReference;
-
-
-
-
+    
     private String itemKey;
 
     private TextView title;
@@ -69,7 +69,6 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
 
     private Button buy;
 
-
     //Initialize donate button and set a listener on the button
     public void buy(){
         buy = (Button) findViewById(R.id.button_buy);
@@ -77,8 +76,10 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
         buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v){
-                Intent donateIntent = new Intent(ItemDetailActivity.this, BuyActivity.class);
-                startActivity(donateIntent);
+                Intent buyIntent = new Intent(ItemDetailActivity.this, BuyActivity.class);
+                buyIntent.putExtra(ItemDetailActivity.EXTRA_ITEM_KEY, itemKey);
+
+                startActivity(buyIntent);
             }
         });
     }
@@ -90,10 +91,10 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
 
         buy();
 
-        // Get post key from intent
-        itemKey = getIntent().getStringExtra(EXTRA_POST_KEY);
+        // Get item key from intent
+        itemKey = getIntent().getStringExtra(EXTRA_ITEM_KEY);
         if (itemKey == null) {
-            throw new IllegalArgumentException("Must pass EXTRA_POST_KEY");
+            throw new IllegalArgumentException("Must pass EXTRA_ITEM_KEY");
         }
 
         // Initialize Database
@@ -145,7 +146,7 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w(TAG, "loadItem:onCancelled", databaseError.toException());
-                Toast.makeText(ItemDetailActivity.this, "Failed to load post.",
+                Toast.makeText(ItemDetailActivity.this, "Failed to load item.",
                         Toast.LENGTH_SHORT).show();
             }
         };

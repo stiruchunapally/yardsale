@@ -10,8 +10,11 @@ items a user has purchased.
 public class PurchasedItemsFragment extends ItemsFragment {
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
-        Query recentPostsQuery = databaseReference.child("items")
+
+        String UID = getUid();
+
+        Query PurchasedItemsQuery = databaseReference.child("purchased-items").child(UID)
                 .limitToFirst(100);
-        return recentPostsQuery;
+        return PurchasedItemsQuery;
     }
 }

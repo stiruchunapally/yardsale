@@ -11,8 +11,9 @@ the app. This fragment shows the last 100 items listed by various users.
 public class RecentItemsFragment extends ItemsFragment {
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
-        Query recentPostsQuery = databaseReference.child("items")
+        Query recentItemsQuery = databaseReference.child("items")
                 .limitToFirst(100);
-        return recentPostsQuery;
+        return recentItemsQuery;
+
     }
 }

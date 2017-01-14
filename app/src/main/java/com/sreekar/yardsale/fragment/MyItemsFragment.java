@@ -12,11 +12,11 @@ public class MyItemsFragment extends ItemsFragment {
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
 
-        String UID =getUid();
+        String UID = getUid();
 
-        Query MyPostsQuery = databaseReference.child("user-items").child(UID)
+        Query MyItemsQuery = databaseReference.child("user-items").child(UID)
                 .limitToFirst(100);
 
-        return MyPostsQuery;
+        return MyItemsQuery;
     }
 }

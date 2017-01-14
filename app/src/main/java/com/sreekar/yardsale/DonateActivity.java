@@ -108,6 +108,7 @@ public class DonateActivity extends BaseActivity implements View.OnClickListener
         item.setPrice(Float.valueOf(strSuggestedPrice));
         item.setSellerName(getUserName());
         item.setTitle(title.getText().toString());
+        item.setPurchased(false);
 
         BitmapDrawable bitmapDrawable = ((BitmapDrawable) itemImage.getDrawable());
         if (bitmapDrawable != null) {
