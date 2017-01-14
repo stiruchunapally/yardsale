@@ -101,12 +101,17 @@ public class MainActivity extends BaseActivity {
     }
 
     //When logout button is clicked, log out the user
+    //When about button is clicked, go to AboutActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int i = item.getItemId();
         if (i == R.id.action_logout) {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(this, SignInActivity.class));
+            finish();
+            return true;
+        } else if (i == R.id.about) {
+            startActivity(new Intent(this, AboutActivity.class));
             finish();
             return true;
         } else {

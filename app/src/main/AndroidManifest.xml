@@ -28,7 +28,8 @@
         <activity
             android:name=".ItemDetailActivity"
             android:label="Item Details" />
-        <activity android:name=".BuyActivity"></activity>
+        <activity android:name=".BuyActivity" />
+        <activity android:name=".AboutActivity"></activity>
     </application>
 
 </manifest>
