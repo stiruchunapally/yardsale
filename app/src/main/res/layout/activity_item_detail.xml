@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:fillViewport="false">
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:focusableInTouchMode="true"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.sreekar.yardsale.ItemDetailActivity">
+
+    <TextView
+        android:text="Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textColor="#F6546A"
+        android:textSize="30dp"
+        android:id="@+id/tvtitle" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:id="@+id/table_seller_price"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/tvtitle"
+        android:stretchColumns="1"
+        android:orientation="horizontal">
+
+        <TableRow>
+            <TextView
+                android:text="Seller"
+                android:id="@+id/tvseller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp" />
+
+            <TextView
+                android:text="Price"
+                android:id="@+id/tvprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:textStyle="bold"
+                android:textSize="20dp" />
+
+            <RatingBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar"
+                android:paddingLeft="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:scaleX="0.4"
+                android:scaleY="0.4"
+                android:transformPivotX="0dp"
+                android:isIndicator="true" />
+        </TableRow>
+    </TableLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="?android:attr/alertDialogIcon"
+        android:layout_below="@+id/table_seller_price"
+        android:scaleY="3"
+        android:scaleX="3"
+        android:paddingTop="25dp"
+        android:id="@+id/item_image"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:paddingTop="105dp"
+        android:textStyle="italic"
+        android:textColor="#0000EE"
+        android:text="Description"
+        android:layout_below="@+id/item_image"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tvdescription"/>
+
+    <Button
+        android:id="@+id/button_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvdescription"
+        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true"
+        android:background="#84FDFA"
+        android:text="Buy"/>
+
+    <LinearLayout
+        android:id="@+id/comment_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/button_buy"
+        android:layout_marginTop="20dp"
+        android:weightSum="1.0">
+
+        <EditText
+            android:id="@+id/field_comment_text"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
+            android:maxLines="1"
+            android:hint="Write a comment..."/>
+
+        <Button
+            android:id="@+id/button_post_comment"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="wrap_content"
+            android:text="Post"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_comments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/comment_form"
+        tools:listitem="@layout/item_comment" />
+
+</RelativeLayout>
+</ScrollView>
