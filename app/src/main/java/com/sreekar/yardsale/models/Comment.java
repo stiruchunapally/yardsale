@@ -6,7 +6,6 @@ import com.google.firebase.database.IgnoreExtraProperties;
 This is the basic layout for the comment object.
  */
 
-// [START comment_class]
 @IgnoreExtraProperties
 public class Comment {
 
@@ -25,4 +24,3 @@ public class Comment {
     }
 
 }
-// [END comment_class]

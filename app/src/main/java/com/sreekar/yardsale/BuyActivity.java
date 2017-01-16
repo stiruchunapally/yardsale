@@ -1,7 +1,6 @@
 package com.sreekar.yardsale;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,7 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sreekar.yardsale.models.Item;
-import com.sreekar.yardsale.viewholder.ItemViewHolder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,14 +24,12 @@ import static com.sreekar.yardsale.ItemDetailActivity.EXTRA_ITEM_KEY;
 public class BuyActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "BuyActivity";
 
-    private DatabaseReference mDatabase;
-    private DatabaseReference mItemReference;
+    private DatabaseReference database;
+    private DatabaseReference itemReference;
 
-    private ValueEventListener mItemListener;
-
-    private EditText etCreditCard;
-    private EditText etAddress;
-    private Button btnSubmit;
+    private EditText creditCard;
+    private EditText address;
+    private Button submitButton;
 
     private String itemKey;
     private Item item;
@@ -49,17 +45,17 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
             throw new IllegalArgumentException("Must pass EXTRA_ITEM_KEY");
         }
 
-        etAddress = (EditText) findViewById(R.id.etAddress);
-        etCreditCard = (EditText) findViewById(R.id.etCreditCard);
-        btnSubmit = (Button) findViewById(R.id.button_submit);
+        // Get firebase database reference
+        database = FirebaseDatabase.getInstance().getReference();
+        itemReference = FirebaseDatabase.getInstance().getReference().child("items").child(itemKey);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        // Initialize views
+        address = (EditText) findViewById(R.id.etAddress);
+        creditCard = (EditText) findViewById(R.id.etCreditCard);
+        submitButton = (Button) findViewById(R.id.button_submit);
 
-        // Initialize Database
-        mItemReference = FirebaseDatabase.getInstance().getReference()
-                .child("items").child(itemKey);
-
-        btnSubmit.setOnClickListener(this);
+        // Setup click listeners
+        submitButton.setOnClickListener(this);
     }
 
     @Override
@@ -67,80 +63,73 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
         super.onStart();
 
         // Add value event listener to the post
-        ValueEventListener itemListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
-                item = dataSnapshot.getValue(Item.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "loadItem:onCancelled", databaseError.toException());
-                Toast.makeText(BuyActivity.this, "Failed to load item.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        mItemReference.addValueEventListener(itemListener);
-
-        // Keep copy of post listener so we can remove it when app stops
-        mItemListener = itemListener;
+        itemReference.addListenerForSingleValueEvent(new BuyValueEventListener());
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-
-        // Remove post value event listener
-        if (mItemListener != null) {
-            mItemReference.removeEventListener(mItemListener);
-        }
+    public void onClick(View v) {
+        submit();
     }
 
     private void submit() {
-        String userId = getUid();
-
         if (!validateForm()) {
             return;
         }
 
-        Map<String, Object> childUpdates = new HashMap<>();
-        item.setPurchased(true);
-        childUpdates.put("/items/" + itemKey, item);
-        childUpdates.put("/purchased-items/" + userId + "/" + itemKey, item);
-
-        mDatabase.updateChildren(childUpdates);
-
-        Toast.makeText(BuyActivity.this, "Purchase auccessfull", Toast.LENGTH_SHORT).show();
+        updateDatabase();
 
         // Go to MainActivity
         startActivity(new Intent(BuyActivity.this, MainActivity.class));
         finish();
     }
 
+    private void updateDatabase() {
+        Map<String, Object> childUpdates = new HashMap<>();
+        item.setPurchased(true);
+        childUpdates.put("/items/" + itemKey, item);
+        childUpdates.put("/purchased-items/" + getUid() + "/" + itemKey, item);
+
+        database.updateChildren(childUpdates);
+
+        Toast.makeText(BuyActivity.this, "Purchase successfull", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Validates that all the fields are set, returns false if any of the required fields is not set.
+     */
     private boolean validateForm() {
         boolean result = true;
 
-        if (TextUtils.isEmpty(etCreditCard.getText().toString())) {
-            etCreditCard.setError("Required");
+        creditCard.setError(null);
+        address.setError(null);
+
+        if (TextUtils.isEmpty(creditCard.getText().toString())) {
+            creditCard.setError("Required");
             result = false;
-        } else {
-            etCreditCard.setError(null);
         }
 
-        if (TextUtils.isEmpty(etAddress.getText().toString())) {
-            etAddress.setError("Required");
+        if (TextUtils.isEmpty(address.getText().toString())) {
+            address.setError("Required");
             result = false;
-        } else {
-            etAddress.setError(null);
         }
 
         return result;
     }
 
-    @Override
-    public void onClick(View v) {
-        submit();
+    /**
+     * ValueEventListener for loading item details from database
+     */
+    private class BuyValueEventListener implements ValueEventListener {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            // Get Post object and use the values to update the UI
+            item = dataSnapshot.getValue(Item.class);
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            Log.w(TAG, "loadItem:onCancelled", databaseError.toException());
+            Toast.makeText(BuyActivity.this, "Failed to load item.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -11,10 +11,11 @@ import android.widget.TextView;
 import com.sreekar.yardsale.R;
 import com.sreekar.yardsale.models.Item;
 
+import static com.sreekar.yardsale.utils.ImageUtils.decodeImage;
+
 /*
 This class inputs the information into the item model.
  */
-
 public class ItemViewHolder extends RecyclerView.ViewHolder {
 
     public TextView titleView;
@@ -36,12 +37,4 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         itemImage.setImageBitmap(decodeImage(item.getImage()));
     }
 
-    public static Bitmap decodeImage(String image) {
-        if (image == null || image.equals("")) {
-            return null;
-        }
-
-        byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedByteArray,0, decodedByteArray.length);
-    }
 }

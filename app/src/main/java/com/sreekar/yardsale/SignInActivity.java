@@ -19,154 +19,53 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sreekar.yardsale.models.User;
 
-/*
-This page is the first page the user sees when they open the app for the first time.
-This page allows for registration and login of a user.
-After a user logs in they are sent to the Main Activity.
+/**
+ * This page is the first page the user sees when they open the app for the first time.
+ * This page allows for registration and login of a user. After a user logs in they are
+ * sent to the Main Activity.
  */
-
 public class SignInActivity extends BaseActivity implements View.OnClickListener {
 
     // Initialize variables
     private static final String TAG = "SignInActivity";
 
-    private DatabaseReference mDatabase;
-    private FirebaseAuth mAuth;
+    private DatabaseReference database;
+    private FirebaseAuth auth;
 
-    private EditText mEmailField;
-    private EditText mPasswordField;
-    private Button mSignInButton;
-    private Button mSignUpButton;
+    private EditText emailField;
+    private EditText passwordField;
+    private Button signInButton;
+    private Button signUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
+        // Get firebase database reference
+        database = FirebaseDatabase.getInstance().getReference();
+        auth = FirebaseAuth.getInstance();
 
-        // Views
-        mEmailField = (EditText) findViewById(R.id.field_email);
-        mPasswordField = (EditText) findViewById(R.id.field_password);
-        mSignInButton = (Button) findViewById(R.id.button_sign_in);
-        mSignUpButton = (Button) findViewById(R.id.button_sign_up);
+        // Initialize views
+        emailField = (EditText) findViewById(R.id.field_email);
+        passwordField = (EditText) findViewById(R.id.field_password);
+        signInButton = (Button) findViewById(R.id.button_sign_in);
+        signUpButton = (Button) findViewById(R.id.button_sign_up);
 
-        // Click listeners
-        mSignInButton.setOnClickListener(this);
-        mSignUpButton.setOnClickListener(this);
+        // Setup click listeners
+        signInButton.setOnClickListener(this);
+        signUpButton.setOnClickListener(this);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        // Check auth on Activity start
-        if (mAuth.getCurrentUser() != null) {
-            onAuthSuccess(mAuth.getCurrentUser());
+        // Check if the user is already signed in, if the user is already signed in take the
+        // user to the main activity.
+        if (auth.getCurrentUser() != null) {
+            startMainActivity();
         }
-    }
-
-    // Validates sign in form
-    private void signIn() {
-        Log.d(TAG, "signIn");
-        if (!validateForm()) {
-            return;
-        }
-
-        showProgressDialog();
-        String email = mEmailField.getText().toString();
-        String password = mPasswordField.getText().toString();
-
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
-                        hideProgressDialog();
-
-                        if (task.isSuccessful()) {
-                            onAuthSuccess(task.getResult().getUser());
-                        } else {
-                            Toast.makeText(SignInActivity.this, "Sign In Failed",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    // Validates registration forms and registers users
-    private void signUp() {
-        Log.d(TAG, "signUp");
-        if (!validateForm()) {
-            return;
-        }
-
-        showProgressDialog();
-        String email = mEmailField.getText().toString();
-        String password = mPasswordField.getText().toString();
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUser:onComplete:" + task.isSuccessful());
-                        hideProgressDialog();
-
-                        if (task.isSuccessful()) {
-                            onAuthSuccess(task.getResult().getUser());
-                        } else {
-                            Toast.makeText(SignInActivity.this, "Sign Up Failed",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    private void onAuthSuccess(FirebaseUser user) {
-        String username = usernameFromEmail(user.getEmail());
-
-        // Write new user
-        writeNewUser(user.getUid(), username, user.getEmail());
-
-        // Go to MainActivity
-        startActivity(new Intent(SignInActivity.this, MainActivity.class));
-        finish();
-    }
-
-    private String usernameFromEmail(String email) {
-        if (email.contains("@")) {
-            return email.split("@")[0];
-        } else {
-            return email;
-        }
-    }
-
-    // Form valdation. If the form is filled out wrong, an error message is shown.
-    private boolean validateForm() {
-        boolean result = true;
-        if (TextUtils.isEmpty(mEmailField.getText().toString())) {
-            mEmailField.setError("Required");
-            result = false;
-        } else {
-            mEmailField.setError(null);
-        }
-
-        if (TextUtils.isEmpty(mPasswordField.getText().toString())) {
-            mPasswordField.setError("Required");
-            result = false;
-        } else {
-            mPasswordField.setError(null);
-        }
-
-        return result;
-    }
-
-    private void writeNewUser(String userId, String name, String email) {
-        User user = new User(name, email);
-
-        // Sends user data to database
-        mDatabase.child("users").child(userId).setValue(user);
     }
 
     // Signs in or registers user based on which button is pressed
@@ -178,5 +77,105 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         } else if (i == R.id.button_sign_up) {
             signUp();
         }
+    }
+
+    /**
+     * This method signs the user in and if the user enters the correct username and password
+     * user will be sent to the MainActivity
+     */
+    private void signIn() {
+        // get the email and password from the text fields
+        String email = emailField.getText().toString();
+        String password = passwordField.getText().toString();
+
+        // make sure user has entered all the required fields.
+        if (!validateForm(email, password)) {
+            return;
+        }
+
+        // show the progress bar while we try to signin the user using auth.
+        showProgressDialog();
+
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
+                    hideProgressDialog();
+
+                    if (task.isSuccessful()) {
+                        startMainActivity();
+                    } else {
+                        Toast.makeText(SignInActivity.this, "Sign In Failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+    }
+
+    /**
+     * This method creates a new user.
+     */
+    private void signUp() {
+        // get the email and password from the text fields
+        String email = emailField.getText().toString();
+        String password = passwordField.getText().toString();
+
+        // make sure user has entered all the required fields.
+        if (!validateForm(email, password)) {
+            return;
+        }
+
+        // show the progress bar while we try to signin the user using auth.
+        showProgressDialog();
+
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    Log.d(TAG, "createUser:onComplete:" + task.isSuccessful());
+                    hideProgressDialog();
+
+                    if (task.isSuccessful()) {
+                        createUser(task.getResult().getUser());
+                    } else {
+                        Toast.makeText(SignInActivity.this, "Sign Up Failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+    }
+
+    private void createUser(FirebaseUser firebaseUser) {
+        String username = getUsernameFromEmail(firebaseUser.getEmail());
+
+        User user = new User(username, firebaseUser.getEmail());
+
+        // Sends user data to database
+        database.child("users").child(firebaseUser.getUid()).setValue(user);
+
+        startMainActivity();
+    }
+
+    private void startMainActivity() {
+        startActivity(new Intent(SignInActivity.this, MainActivity.class));
+        finish();
+    }
+
+    // Form valdation. If the form is filled out wrong, an error message is shown.
+    private boolean validateForm(String email, String password) {
+        boolean result = true;
+        emailField.setError(null);
+        passwordField.setError(null);
+
+        if (TextUtils.isEmpty(email)) {
+            emailField.setError("Required");
+            result = false;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            passwordField.setError("Required");
+            result = false;
+        }
+
+        return result;
     }
 }

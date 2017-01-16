@@ -41,6 +41,10 @@ public class BaseActivity extends AppCompatActivity {
     //Method that derives a Username by deleting the @example.com from the email used for registration and stores it in a string
     public String getUserName() {
         String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        return getUsernameFromEmail(email);
+    }
+
+    public String getUsernameFromEmail(String email) {
         if (email.contains("@")) {
             return email.split("@")[0];
         } else {

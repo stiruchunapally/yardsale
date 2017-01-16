@@ -11,12 +11,9 @@ the items that the user that is logged in has listed.
 public class MyItemsFragment extends ItemsFragment {
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
-
         String UID = getUid();
 
-        Query MyItemsQuery = databaseReference.child("user-items").child(UID)
-                .limitToFirst(100);
-
-        return MyItemsQuery;
+        Query myItemsQuery = databaseReference.child("user-items").child(UID).limitToFirst(100);
+        return myItemsQuery;
     }
 }

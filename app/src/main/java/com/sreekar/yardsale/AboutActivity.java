@@ -15,25 +15,21 @@ import com.sreekar.yardsale.models.Item;
 public class AboutActivity extends BaseActivity {
     private static final String TAG = "BuyActivity";
 
-    private DatabaseReference mDatabase;
-    private DatabaseReference mItemsReference;
+    private DatabaseReference itemsReference;
 
-    private ValueEventListener mItemsListener;
-
-    private TextView Money;
-    private Float MoneyRaised = 0f;
+    private TextView money;
+    private Float moneyRaised = 0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        Money = (TextView) findViewById(R.id.tvMoney);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
         // Initialize Database
-        mItemsReference = FirebaseDatabase.getInstance().getReference().child("items");
+        itemsReference = FirebaseDatabase.getInstance().getReference().child("items");
+
+        // Initialize views
+        money = (TextView) findViewById(R.id.tvMoney);
     }
 
     @Override
@@ -41,41 +37,30 @@ public class AboutActivity extends BaseActivity {
         super.onStart();
 
         // Add value event listener to the post
-        ValueEventListener itemListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot itemDataSnapshot : dataSnapshot.getChildren()) {
-                    Item item = itemDataSnapshot.getValue(Item.class);
-                    if (item.isPurchased() == true) {
-                        //Formatting price with $ before the number and 2 places after the decimal
-                        MoneyRaised = MoneyRaised + item.getPrice();
-                    }
-
-                    Money.setText(String.format("$%.2f", MoneyRaised));
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w(TAG, "loadItem:onCancelled", databaseError.toException());
-                Toast.makeText(AboutActivity.this, "Failed to load item.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        mItemsReference.addValueEventListener(itemListener);
-
-        // Keep copy of post listener so we can remove it when app stops
-        mItemsListener = itemListener;
+        itemsReference.addListenerForSingleValueEvent(new AboutValueEventListener());
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
+    /**
+     * ValueEventListener for loading items from database
+     */
+    private class AboutValueEventListener implements ValueEventListener {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            for (DataSnapshot itemDataSnapshot : dataSnapshot.getChildren()) {
+                Item item = itemDataSnapshot.getValue(Item.class);
+                if (item.isPurchased() == true) {
+                    //Formatting price with $ before the number and 2 places after the decimal
+                    moneyRaised = moneyRaised + item.getPrice();
+                }
 
-        // Remove post value event listener
-        if (mItemsListener != null) {
-            mItemsReference.removeEventListener(mItemsListener);
+                money.setText(String.format("$%.2f", moneyRaised));
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            Log.w(TAG, "loadItem:onCancelled", databaseError.toException());
+            Toast.makeText(AboutActivity.this, "Failed to load item.", Toast.LENGTH_SHORT).show();
         }
     }
 }

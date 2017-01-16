@@ -19,25 +19,27 @@ import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sreekar.yardsale.models.Item;
+import com.sreekar.yardsale.utils.ImageUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-/*
-This activity is shown when a user clicks on the donate button in the main page.
-This page allows for the input of an items title, condition, description,
-suggested price and picture. When a user inputs all of the information and clicks the submit button,
-the information is shown on the main page and the user is directed to the main page.
-If all of the information is not submitted, an error message is shown.
- */
+import static com.sreekar.yardsale.utils.ImageUtils.encodeBitmap;
 
+/**
+ * This activity is shown when a user clicks on the donate button in the main page.
+ * This page allows for the input of an items title, condition, description, suggested price
+ * and picture. When a user inputs all of the information and clicks the submit button,
+ * the information is shown on the main page and the user is directed to the main page.
+ * If all of the information is not submitted, an error message is shown.
+ */
 public class DonateActivity extends BaseActivity implements View.OnClickListener {
 
-    private DatabaseReference mDatabase;
+    private DatabaseReference database;
 
-    private ImageButton btnCaptureImage;
-    private Button btnSubmit;
+    private ImageButton captureImageButton;
+    private Button submitButton;
     private EditText title;
     private ImageView itemImage;
     private RatingBar ratingCondition;
@@ -51,20 +53,21 @@ public class DonateActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donate);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        // Get firebase database reference
+        database = FirebaseDatabase.getInstance().getReference();
 
-        // Views
-        btnCaptureImage = (ImageButton) findViewById(R.id.button_capture_image);
-        btnSubmit = (Button) findViewById(R.id.button_submit);
+        // Initialize views
         itemImage = (ImageView) findViewById(R.id.item_image);
         title = (EditText) findViewById(R.id.text_item_title);
         ratingCondition = (RatingBar) findViewById(R.id.rating_condition);
         suggestedPrice = (CurrencyEditText) findViewById(R.id.text_price);
         description = (EditText) findViewById(R.id.etAddress);
+        captureImageButton = (ImageButton) findViewById(R.id.button_capture_image);
+        submitButton = (Button) findViewById(R.id.button_submit);
 
-        // Click listeners
-        btnSubmit.setOnClickListener(this);
-        btnCaptureImage.setOnClickListener(this);
+        // Setup click listeners
+        submitButton.setOnClickListener(this);
+        captureImageButton.setOnClickListener(this);
     }
 
     @Override
@@ -92,12 +95,21 @@ public class DonateActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void submit() {
-        String userId = getUid();
-
+        // make sure all the fields are set
         if (!validateForm()) {
             return;
         }
 
+        updateDatabase();
+
+        Toast.makeText(DonateActivity.this, "Submittion successfull", Toast.LENGTH_SHORT).show();
+
+        // Go to MainActivity
+        startActivity(new Intent(DonateActivity.this, MainActivity.class));
+        finish();
+    }
+
+    private void updateDatabase() {
         Item item = new Item();
         item.setCondition(ratingCondition.getRating());
         item.setDescription(description.getText().toString());
@@ -116,41 +128,37 @@ public class DonateActivity extends BaseActivity implements View.OnClickListener
             item.setImage(encodeBitmap(bitmap));
         }
 
-        String key = mDatabase.child("items").push().getKey();
+        String key = database.child("items").push().getKey();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/items/" + key, item);
-        childUpdates.put("/user-items/" + userId + "/" + key, item);
+        childUpdates.put("/user-items/" + getUid() + "/" + key, item);
 
-        mDatabase.updateChildren(childUpdates);
-
-        Toast.makeText(DonateActivity.this, "Submittion auccessfull", Toast.LENGTH_SHORT).show();
-
-        // Go to MainActivity
-        startActivity(new Intent(DonateActivity.this, MainActivity.class));
-        finish();
+        database.updateChildren(childUpdates);
     }
 
+    /**
+     * Validates that all the fields are set, returns false if any of the required fields is not set.
+     */
     private boolean validateForm() {
         boolean result = true;
+
+        suggestedPrice.setError(null);
+        description.setError(null);
+        title.setError(null);
+
         if (TextUtils.isEmpty(suggestedPrice.getText().toString())) {
             suggestedPrice.setError("Required");
             result = false;
-        } else {
-            suggestedPrice.setError(null);
         }
 
         if (TextUtils.isEmpty(description.getText().toString())) {
             description.setError("Required");
             result = false;
-        } else {
-            description.setError(null);
         }
 
         if (TextUtils.isEmpty(title.getText().toString())) {
             title.setError("Required");
             result = false;
-        } else {
-            title.setError(null);
         }
 
         if (itemImage.getDrawable() == null) {
@@ -164,11 +172,5 @@ public class DonateActivity extends BaseActivity implements View.OnClickListener
         }
 
         return result;
-    }
-
-    private String encodeBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        return Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
     }
 }
