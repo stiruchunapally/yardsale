@@ -71,11 +71,22 @@
         </TableRow>
     </TableLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/table_seller_price"
+        android:textColor="#42e5f4"
+        android:text="Purchased"
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:id="@+id/purchased"/>
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="?android:attr/alertDialogIcon"
-        android:layout_below="@+id/table_seller_price"
+        android:layout_below="@+id/purchased"
         android:scaleY="3"
         android:scaleX="3"
         android:paddingTop="25dp"

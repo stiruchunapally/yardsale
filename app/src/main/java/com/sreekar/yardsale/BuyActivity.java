@@ -88,6 +88,7 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
         item.setPurchased(true);
         childUpdates.put("/items/" + itemKey, item);
         childUpdates.put("/purchased-items/" + getUid() + "/" + itemKey, item);
+        childUpdates.put("/user-items/" + getUid() + "/" + itemKey, item);
 
         database.updateChildren(childUpdates);
 

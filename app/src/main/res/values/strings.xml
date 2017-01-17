@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sreekar\'s NLC Yard Sale</string>
+    <string name="app_name">Yard Sale</string>
     <string name="donate_name">Donate an Item</string>
     <string name="heading_recent">Recent</string>
     <string name="heading_favorites">Purchased</string>

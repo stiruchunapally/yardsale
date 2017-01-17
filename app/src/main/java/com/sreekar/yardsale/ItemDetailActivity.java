@@ -54,6 +54,7 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
     private TextView description;
     private ImageView image;
     private RatingBar rating;
+    private TextView purchased;
 
     private Button buyButton;
 
@@ -80,6 +81,7 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
 
         // Initialize Views
         title = (TextView) findViewById(R.id.tvtitle);
+        purchased = (TextView) findViewById(R.id.purchased) ;
         seller = (TextView) findViewById(R.id.tvseller);
         price = (TextView) findViewById(R.id.tvprice);
         description = (TextView) findViewById(R.id.tvdescription);
@@ -161,6 +163,13 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
             description.setText(item.getDescription());
             rating.setRating(item.getCondition());
             image.setImageBitmap(decodeImage(item.getImage()));
+
+            if(item.isPurchased() == true){
+                buyButton.setEnabled(false);
+                purchased.setText("This item has been sold");
+            } else {
+                purchased.setText(" ");
+            }
         }
 
         @Override

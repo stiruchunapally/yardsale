@@ -21,12 +21,14 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
     public TextView titleView;
     public TextView priceView;
     public ImageView itemImage;
+    public TextView purchased;
 
     public ItemViewHolder(View itemView) {
         super(itemView);
 
         titleView = (TextView) itemView.findViewById(R.id.item_title);
         priceView = (TextView) itemView.findViewById(R.id.tvprice);
+        purchased = (TextView) itemView.findViewById(R.id.purchased);
         itemImage = (ImageView) itemView.findViewById(R.id.item_photo);
     }
 
@@ -35,6 +37,12 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         String strPrice = String.format("$%.2f", item.getPrice());
         priceView.setText(strPrice);
         itemImage.setImageBitmap(decodeImage(item.getImage()));
+
+        if(item.isPurchased() == true){
+            purchased.setText("SOLD");
+        } else {
+            purchased.setText(" ");
+        }
     }
 
 }
