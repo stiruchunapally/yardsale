@@ -76,6 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/table_seller_price"
         android:textColor="#42e5f4"
+        android:paddingBottom="50dp"
         android:text="Purchased"
         android:layout_centerHorizontal="true"
         android:textSize="25dp"

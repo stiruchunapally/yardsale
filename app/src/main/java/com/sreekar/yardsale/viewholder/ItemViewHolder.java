@@ -41,7 +41,7 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         if(item.isPurchased() == true){
             purchased.setText("SOLD");
         } else {
-            purchased.setText(" ");
+            purchased.setVisibility(View.GONE);
         }
     }
 

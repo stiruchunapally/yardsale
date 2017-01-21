@@ -24,6 +24,8 @@ import com.sreekar.yardsale.fragment.RecentItemsFragment;
  * in the bottom right corner which allows you to donate an item. The initial landing tab
  * is the Recent tab.
  */
+
+//Made by Sreekar Tiruchunapally
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     // Initialize variables

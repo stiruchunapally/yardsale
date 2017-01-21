@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -97,6 +99,7 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
 
         commentButton.setOnClickListener(this);
         commentsRecycler.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
 
@@ -168,7 +171,7 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
                 buyButton.setEnabled(false);
                 purchased.setText("This item has been sold");
             } else {
-                purchased.setText(" ");
+                purchased.setVisibility(View.GONE);
             }
         }
 
@@ -191,6 +194,12 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
 
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
+
+            // make sure all the fields are set
+            if (!validateForm()) {
+                return;
+            }
+
             // Get user information
             User user = dataSnapshot.getValue(User.class);
             String authorName = user.username;
@@ -204,6 +213,22 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
 
             // Clear the field
             commentField.setText(null);
+        }
+
+        /**
+         * Validates that all the fields are set, returns false if any of the required fields is not set.
+         */
+        private boolean validateForm() {
+            boolean result = true;
+
+            commentField.setError(null);
+
+            if (TextUtils.isEmpty(commentField.getText().toString())) {
+                commentField.setError("Required");
+                result = false;
+            }
+
+            return result;
         }
 
         @Override
