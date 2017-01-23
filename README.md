@@ -18,13 +18,13 @@ Yardsale is a marketplace where you can donate and buy items. This will help me 
 ## How To Run the App
 ### Easy: 
 1.	On an Android phone go to Settings/Security and enable unknown sources
-2.	Download the .apk from [Google Drive] (https://drive.google.com/file/d/0B77Eqvf5GFX8MEl3SGpvWlNGaGM/view?usp=sharing) or use the provided .apk and upload it to an android phone.
+2.	Download the .apk from [Google Drive] (https://drive.google.com/file/d/0B77Eqvf5GFX8SEZ5SnltS2M1VEk/view?usp=sharing) or use the provided .apk and upload it to an android phone.
 3.	Click install
 4.	Click open
 
 ### Medium: 
 1.	Go to [https://testobject.com/](https://testobject.com/) and create a free account.
-2.	Download the .apk from [Google Drive] (https://drive.google.com/file/d/0B77Eqvf5GFX8MEl3SGpvWlNGaGM/view?usp=sharing) or use the provided .apk.
+2.	Download the .apk from [Google Drive] (https://drive.google.com/file/d/0B77Eqvf5GFX8SEZ5SnltS2M1VEk/view?usp=sharing) or use the provided .apk.
 3.	Click new app
 4.	Click Android/IOS app
 5.	Click browse and find the .apk you downloaded from Google Drive. Then upload that file.
