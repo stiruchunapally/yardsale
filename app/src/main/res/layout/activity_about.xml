@@ -54,14 +54,24 @@
 </LinearLayout>
 
     <TextView
-        android:text="This app was made so that I could raise funds to attend the FBLA National Leadership Conference."
+        android:text="This app was made so that I could raise funds to attend the FBLA National
+Leadership Conference. The premise of this app is hypothetical and no money is to be exchanged."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:layout_below="@+id/LinearLayout"
         android:textColor="#ff23de"
+        android:layout_marginTop="29dp"
+        android:id="@+id/Description"
+        android:layout_below="@+id/LinearLayout"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Back to Home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Description"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="27dp"
-        android:id="@+id/Description" />
+        android:layout_marginTop="33dp"
+        android:id="@+id/homeButton" />
 
 </RelativeLayout>

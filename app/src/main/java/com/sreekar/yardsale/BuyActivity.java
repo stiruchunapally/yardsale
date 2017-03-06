@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +30,10 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText creditCard;
     private EditText address;
+    private EditText cvv;
+    private EditText name;
+    private EditText exp;
+    private RadioGroup card;
     private Button submitButton;
 
     private String itemKey;
@@ -52,9 +57,13 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
         // Initialize views
         address = (EditText) findViewById(R.id.etAddress);
         creditCard = (EditText) findViewById(R.id.etCreditCard);
+        cvv = (EditText) findViewById(R.id.etCVV);
+        name = (EditText) findViewById(R.id.etName);
+        exp = (EditText) findViewById(R.id.etExp);
+        card = (RadioGroup) findViewById(R.id.cardRadioGroup);
         submitButton = (Button) findViewById(R.id.button_submit);
 
-        // Setup click listeners
+        // Setup click listener
         submitButton.setOnClickListener(this);
     }
 
@@ -111,6 +120,27 @@ public class BuyActivity extends BaseActivity implements View.OnClickListener {
 
         if (TextUtils.isEmpty(address.getText().toString())) {
             address.setError("Required");
+            result = false;
+        }
+
+        if (TextUtils.isEmpty(exp.getText().toString())) {
+            exp.setError("Required");
+            result = false;
+        }
+
+        if (TextUtils.isEmpty(name.getText().toString())) {
+            name.setError("Required");
+            result = false;
+        }
+
+        if (TextUtils.isEmpty(cvv.getText().toString())) {
+            cvv.setError("Required");
+            result = false;
+        }
+
+        if (card.getCheckedRadioButtonId() == 0)
+        {
+            Toast.makeText(BuyActivity.this, "Card type has to be selected", Toast.LENGTH_SHORT).show();
             result = false;
         }
 

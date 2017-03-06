@@ -1,7 +1,10 @@
 package com.sreekar.yardsale;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,13 +15,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sreekar.yardsale.models.Item;
 
-public class AboutActivity extends BaseActivity {
+public class AboutActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "BuyActivity";
 
     private DatabaseReference itemsReference;
 
     private TextView money;
     private Float moneyRaised = 0f;
+    private Button returnToHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,10 @@ public class AboutActivity extends BaseActivity {
 
         // Initialize views
         money = (TextView) findViewById(R.id.tvMoney);
+        returnToHome = (Button) findViewById(R.id.homeButton);
+
+        // Setup click listener
+        returnToHome.setOnClickListener(this);
     }
 
     @Override
@@ -38,6 +46,11 @@ public class AboutActivity extends BaseActivity {
 
         // Add value event listener to the post
         itemsReference.addListenerForSingleValueEvent(new AboutValueEventListener());
+    }
+
+    public void onClick(View v) {
+            startActivity(new Intent(AboutActivity.this, MainActivity.class));
+            finish();
     }
 
     /**

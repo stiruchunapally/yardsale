@@ -28,8 +28,12 @@
         <activity
             android:name=".ItemDetailActivity"
             android:label="Item Details" />
-        <activity android:name=".BuyActivity" />
-        <activity android:name=".AboutActivity"></activity>
+        <activity
+            android:name=".BuyActivity"
+            android:label="Buy an item" />
+        <activity
+            android:name=".AboutActivity"
+            android:label="About the app" />
     </application>
 
 </manifest>

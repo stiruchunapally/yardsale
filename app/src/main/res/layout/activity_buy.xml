@@ -12,7 +12,7 @@
     tools:context="com.sreekar.yardsale.DonateActivity">
 
     <LinearLayout
-        android:id="@+id/layout_title_and_buttons"
+        android:id="@+id/layout_Credit_Card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -47,12 +47,83 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:textSize="19dp"
+        android:id="@+id/etCVV"
+        android:hint="CVV"
+        android:inputType="numberPassword"
+        android:layout_weight="0.21"
+        android:layout_below="@+id/layout_Credit_Card"
+        android:layout_alignParentStart="true" />
+
+
+    <RadioGroup
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+        android:id="@+id/cardRadioGroup"
+    android:checkedButton="@+id/sound"
+        android:layout_below="@+id/etExp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="12dp">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/visa"
+            android:text="Visa" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mastercard"
+            android:text="Mastercard" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/discover"
+            android:text="Discover" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/americanexpress"
+            android:text="American Express" />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/capitalone"
+            android:text="Capital One" />
+</RadioGroup>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
         android:inputType="textMultiLine"
         android:id="@+id/etAddress"
         android:hint="Address"
         android:textSize="19dp"
+        android:layout_below="@+id/cardRadioGroup"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="59dp"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:id="@+id/etName"
+        android:hint="Name"
+        android:textSize="19dp"
+        android:layout_below="@+id/etAddress"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="19dp"
+        android:id="@+id/etExp"
+        android:hint="Exp (ddmmyyyy)"
+        android:inputType=""
+        android:layout_weight="0.21"
+        android:layout_below="@+id/etCVV"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

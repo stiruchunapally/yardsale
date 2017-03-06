@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -174,6 +175,11 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         if (TextUtils.isEmpty(password)) {
             passwordField.setError("Required");
             result = false;
+        }
+
+        if(passwordField.getText().toString().length() <   8){
+            passwordField.setError("Password must be equal to or more than 8 characters");
+            result=false;
         }
 
         return result;
