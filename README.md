@@ -1,4 +1,4 @@
-# Yardsale for Android
+# Yardsale for Android (DEFUNCT)
 =======
 
 ## What is it?
@@ -50,4 +50,4 @@ To build a development version of the app from source, follow the instructions o
 23.	Wait until the app opens on the emulator
 
 ## Note
-The emulator at appetize.io is not working because the emulator   uses an older version of Google Play Services and Yard Sale needs a minimum version of 10.0.1.
+The emulator at appetize.io is not working because the emulator uses an older version of Google Play Services and Yard Sale needs a minimum version of 10.0.1.
